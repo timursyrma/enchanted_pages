@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for post in posts %}
+    <article>
+        <h2><a href="{{ post.filename }}">{{ post.metadata.title }}</a></h2>
+        <p>Published on {{ post.metadata.date }}</p>
+    </article>
+    {% endfor %}
+    
+    <nav>
+        {% if current_page > 1 %}
+        <a href="{% if current_page == 2 %}index.html{% else %}page{{ current_page-1 }}.html{% endif %}">Previous</a>
+        {% endif %}
+        
+        {% if current_page < total_pages %}
+        <a href="page{{ current_page+1 }}.html">Next</a>
+        {% endif %}
+    </nav>
+{% endblock %}

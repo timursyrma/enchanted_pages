@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ site_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('serve_assets', path='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>{{ site_name }}</h1>
+        <p>By {{ author }}</p>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; {{ site_name }}</p>
+    </footer>
+</body>
+</html>
