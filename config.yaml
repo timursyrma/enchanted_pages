@@ -1,4 +1,4 @@
 site_name: My Self-hosted Digital-Identity Blog
 author: S1mY
-output_dir: output
+output_dir: docs
 posts_dir: posts
