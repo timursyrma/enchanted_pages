@@ -9,7 +9,7 @@ I decided to talk about the Kotlin features that I actively use and find useful.
 ## Idioms as a Style of Programming
 When it comes to a programming language, it’s hard to evaluate a good language by a single feature. The language's capabilities are closely intertwined, forming a programming style. Their combination shapes what are known as the language's idioms—small recipes for solving typical tasks. They simplify code and make it readable and understandable for other developers.
 
-A good example of this approach in Kotlin is the official [Idioms page](https://kotlinlang.org/docs/idioms.html). We strive to expand these idioms, especially for those coming from Java, to show how familiar tasks can be approached in a new style.
+A good example of this approach in Kotlin is the official [Idioms page](https://kotlinlang.org/docs/idioms.html).
 
 ## Documentation and Comparison with Java
 Kotlin aims to be an evolution of Java, improving its weaker aspects. The [Comparison to Java](https://kotlinlang.org/docs/comparison-to-java.html) page describes both new features and the pain points that Kotlin addresses. In this article, I’ve decided to focus on the features that Java doesn’t have, but which are widely used in Kotlin.
@@ -86,7 +86,7 @@ Suppose we have a simple `Client` class with three fields:
 ```kotlin
 class Client(val name: String, val company: String, val twitter: String)
 
-println(Client("Steve", "JetBrains", "@steveminecraft"))
+println(Client("Steve", "Minecraft", "@steveminecraft"))
 > Client@3ac3fd8b
 ```
 
@@ -99,8 +99,8 @@ Instead, in Kotlin, you can add an extension function:
 fun Client.toConsole() =
     "Client[name=${name}, ${company}, ${twitter}]"
 
-println(Client("Steve", "JetBrains", "@steveminecraft").toConsole())
-> Client[name=Steve, JetBrains, @steveminecraft]
+println(Client("Steve", "Minecraft", "@steveminecraft").toConsole())
+> Client[name=Steve, Minecraft, @steveminecraft]
 ```
 
 Here:
@@ -115,8 +115,8 @@ If for some reason you don’t want to use an extension function, you can implem
 fun toConsole(client: Client) =
     "Client[name=${client.name}, ${client.company}, ${client.twitter}]"
 
-println(toConsole(Client("Steve", "JetBrains", "@steveminecraft")))
-> Client[name=Steve, JetBrains, @steveminecraft]
+println(toConsole(Client("Steve", "Minecraft", "@steveminecraft")))
+> Client[name=Steve, Minecraft, @steveminecraft]
 ```
 
 However, in this case the syntax becomes a bit more verbose, as you have to explicitly specify the `client` object.

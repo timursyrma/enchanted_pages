@@ -16,7 +16,7 @@
             <p>I decided to talk about the Kotlin features that I actively use and find useful.</p>
 <h2 id="idioms-as-a-style-of-programming">Idioms as a Style of Programming</h2>
 <p>When it comes to a programming language, it’s hard to evaluate a good language by a single feature. The language's capabilities are closely intertwined, forming a programming style. Their combination shapes what are known as the language's idioms—small recipes for solving typical tasks. They simplify code and make it readable and understandable for other developers.</p>
-<p>A good example of this approach in Kotlin is the official <a href="https://kotlinlang.org/docs/idioms.html">Idioms page</a>. We strive to expand these idioms, especially for those coming from Java, to show how familiar tasks can be approached in a new style.</p>
+<p>A good example of this approach in Kotlin is the official <a href="https://kotlinlang.org/docs/idioms.html">Idioms page</a>.</p>
 <h2 id="documentation-and-comparison-with-java">Documentation and Comparison with Java</h2>
 <p>Kotlin aims to be an evolution of Java, improving its weaker aspects. The <a href="https://kotlinlang.org/docs/comparison-to-java.html">Comparison to Java</a> page describes both new features and the pain points that Kotlin addresses. In this article, I’ve decided to focus on the features that Java doesn’t have, but which are widely used in Kotlin.</p>
 <p>Of course, this list is by no means complete. You can find more examples and details in the documentation, but I’ve highlighted the features I find most important.</p>
@@ -78,7 +78,7 @@ fun finishWork() {
 <p>Suppose we have a simple <code>Client</code> class with three fields:</p>
 <pre class="codehilite"><code class="language-kotlin">class Client(val name: String, val company: String, val twitter: String)
 
-println(Client(&quot;Steve&quot;, &quot;JetBrains&quot;, &quot;@steveminecraft&quot;))
+println(Client(&quot;Steve&quot;, &quot;Minecraft&quot;, &quot;@steveminecraft&quot;))
 &gt; Client@3ac3fd8b
 </code></pre>
 
@@ -88,30 +88,30 @@ println(Client(&quot;Steve&quot;, &quot;JetBrains&quot;, &quot;@steveminecraft&q
 <pre class="codehilite"><code class="language-kotlin">fun Client.toConsole() =
     &quot;Client[name=${name}, ${company}, ${twitter}]&quot;
 
-println(Client(&quot;Steve&quot;, &quot;JetBrains&quot;, &quot;@steveminecraft&quot;).toConsole())
-&gt; Client[name=Steve, JetBrains, @steveminecraft]
+println(Client(&quot;Steve&quot;, &quot;Minecraft&quot;, &quot;@steveminecraft&quot;).toConsole())
+&gt; Client[name=Steve, Minecraft, @steveminecraft]
 </code></pre>
 
-<p>Here:<br>
-1. <code>toConsole</code> is an extension function added to the <code>Client</code> class.<br>
-2. Inside the function, you can access the class fields as if it were its method.<br>
+<p>Here:<br />
+1. <code>toConsole</code> is an extension function added to the <code>Client</code> class.<br />
+2. Inside the function, you can access the class fields as if it were its method.<br />
 3. This significantly simplifies working with types, making the code cleaner and shorter.</p>
 <h3 id="alternative-external-function">Alternative: External Function</h3>
 <p>If for some reason you don’t want to use an extension function, you can implement similar functionality with a regular function:</p>
 <pre class="codehilite"><code class="language-kotlin">fun toConsole(client: Client) =
     &quot;Client[name=${client.name}, ${client.company}, ${client.twitter}]&quot;
 
-println(toConsole(Client(&quot;Steve&quot;, &quot;JetBrains&quot;, &quot;@steveminecraft&quot;)))
-&gt; Client[name=Steve, JetBrains, @steveminecraft]
+println(toConsole(Client(&quot;Steve&quot;, &quot;Minecraft&quot;, &quot;@steveminecraft&quot;)))
+&gt; Client[name=Steve, Minecraft, @steveminecraft]
 </code></pre>
 
 <p>However, in this case the syntax becomes a bit more verbose, as you have to explicitly specify the <code>client</code> object.</p>
 <h3 id="working-with-types-not-under-your-control">Working with Types Not Under Your Control</h3>
 <p>A key advantage of extension functions is the ability to add behavior to types that you cannot modify—for example, classes from third-party libraries. This is especially useful when you need to adapt types to your needs without touching the original code.</p>
-<p>In summary, extension functions:<br>
-- Simplify adding logic to existing types.<br>
-- Make code more concise by providing direct access to the object’s fields.<br>
-- Help adapt third-party classes without modifying them.<br>
+<p>In summary, extension functions:<br />
+- Simplify adding logic to existing types.<br />
+- Make code more concise by providing direct access to the object’s fields.<br />
+- Help adapt third-party classes without modifying them.<br />
 - Are particularly useful for creating domain-specific languages (DSL), where minimizing code “noise” and staying within a very simple syntax is important.</p>
 <h3 id="extension-functions-in-framework-integration-example-with-spring">Extension Functions in Framework Integration: Example with Spring</h3>
 <p>One of Kotlin’s key advantages is the ability to write extension functions for classes from third-party libraries. This is especially helpful when you use popular frameworks like Spring and want to improve the readability and convenience of their APIs.</p>
@@ -123,10 +123,10 @@ public &lt;T&gt; List&lt;T&gt; query(String sql, RowMapper&lt;T&gt; rowMapper, @
 }
 </code></pre>
 
-<p>We need to pass:<br>
-- The SQL query<br>
-- A mapper (for example, an implementation of <code>RowMapper</code>)<br>
-- Parameters for the SQL<br>
+<p>We need to pass:<br />
+- The SQL query<br />
+- A mapper (for example, an implementation of <code>RowMapper</code>)<br />
+- Parameters for the SQL<br />
 - A readability challenge</p>
 <p>When the SQL query and mapper become large, parameters end up being “scattered” in the code. For example:</p>
 <pre class="codehilite"><code class="language-kotlin">fun findMessageById(id: String) = db.query(
@@ -141,8 +141,8 @@ public &lt;T&gt; List&lt;T&gt; query(String sql, RowMapper&lt;T&gt; rowMapper, @
 )
 </code></pre>
 
-<p>Here:<br>
-- The <code>id</code> parameter is far from the actual SQL query.<br>
+<p>Here:<br />
+- The <code>id</code> parameter is far from the actual SQL query.<br />
 - The mapper takes up a lot of space, distracting from the main logic.</p>
 <h3 id="solution-extension-functions-and-trailing-lambda">Solution: Extension Functions and Trailing Lambda</h3>
 <p>In Kotlin, you can solve this readability problem by using an extension function for <code>JdbcOperations</code> that changes the order of parameters:</p>
@@ -172,13 +172,13 @@ public &lt;T&gt; List&lt;T&gt; query(String sql, RowMapper&lt;T&gt; rowMapper, @
 
 <p>This allows you to adapt the code to your needs, creating a convenient API even for basic tools.</p>
 <h3 id="are-extension-functions-available-via-reflection-api">Are Extension Functions Available via Reflection API?</h3>
-<p><strong>Answer:</strong><br>
+<p><strong>Answer:</strong><br />
 Yes, extension functions are accessible through the Reflection API. They are resolved as static methods, and you can call them if you know their name. This is because extension functions are actually compiled into static methods, which take the extended type's object as the first parameter.</p>
 <h3 id="how-to-test-extension-functions">How to Test Extension Functions?</h3>
-<p><strong>Answer:</strong><br>
+<p><strong>Answer:</strong><br />
 Because extension functions are static methods, testing them can be tricky if you want to use mocks. However, the <a href="https://github.com/mockito/mockito-kotlin">Mockito Kotlin</a> library provides utilities for working with such functions. You can mock and test extension functions just like any other static methods.</p>
 <h3 id="are-extension-functions-inherited-by-descendants">Are Extension Functions Inherited by Descendants?</h3>
-<p><strong>Answer:</strong><br>
+<p><strong>Answer:</strong><br />
 No, extension functions are not inherited. They are statically resolved in the context of the type they extend. This is because extension functions do not modify the original class but add extra behavior at compile time.</p>
 <p><strong>Example:</strong></p>
 <pre class="codehilite"><code class="language-kotlin">open class Parent
@@ -227,9 +227,9 @@ dataSource.minIdle = 4
 }
 </code></pre>
 
-<p><strong>How It Works:</strong><br>
-1. <code>apply</code> is an extension function on any type.<br>
-2. It takes a lambda with a receiver, which is bound to the object.<br>
+<p><strong>How It Works:</strong><br />
+1. <code>apply</code> is an extension function on any type.<br />
+2. It takes a lambda with a receiver, which is bound to the object.<br />
 3. The code in the block executes in the context of the object, and the function returns that object (<code>this</code>).</p>
 <h3 id="let-for-working-with-nullable-objects">let for Working with Nullable Objects</h3>
 <p><code>let</code> is commonly used for null checks and performing actions on an object.</p>
@@ -246,8 +246,8 @@ if (order != null) {
 }
 </code></pre>
 
-<p><strong>Advantages:</strong><br>
-- Reduces the number of temporary variables.<br>
+<p><strong>Advantages:</strong><br />
+- Reduces the number of temporary variables.<br />
 - Code is more compact and readable.</p>
 <h3 id="problem-of-choice-which-function-to-use">Problem of Choice: Which Function to Use?</h3>
 <p>Scope functions often look similar, which can be confusing. Here’s a brief table for reference:</p>
@@ -293,8 +293,8 @@ if (order != null) {
 </tr>
 </tbody>
 </table>
-<p><strong>Selection Rule:</strong><br>
-- If you need to return the object itself, use <code>apply</code> or <code>also</code>.<br>
+<p><strong>Selection Rule:</strong><br />
+- If you need to return the object itself, use <code>apply</code> or <code>also</code>.<br />
 - If you need to return the result of the block, use <code>let</code>, <code>run</code>, or <code>with</code>.</p>
 <h3 id="implementation-details">Implementation Details</h3>
 <ol>
@@ -324,8 +324,8 @@ fun main() {
 }
 </code></pre>
 
-<p><strong>Benefits:</strong><br>
-1. Less code: No need to create multiple overloaded methods.<br>
+<p><strong>Benefits:</strong><br />
+1. Less code: No need to create multiple overloaded methods.<br />
 2. Simpler calls: You can specify only the parameters that matter in your situation.</p>
 <h3 id="named-parameters">Named Parameters</h3>
 <p>When a function or constructor has many parameters, it can be hard to tell which argument corresponds to which parameter. Named parameters solve this by letting you explicitly specify which value goes to which parameter.</p>
@@ -346,9 +346,9 @@ Figure(Color.RED, &quot;Red figure&quot;) // Compilation error
 <pre class="codehilite"><code class="language-kotlin">Figure(color = Color.RED, description = &quot;Red figure&quot;)
 </code></pre>
 
-<p><strong>Benefits:</strong><br>
-1. Clarity: Instead of remembering parameter order, you explicitly specify which parameter receives which value.<br>
-2. Flexibility: You can pass only the parameters you need, ignoring the others.<br>
+<p><strong>Benefits:</strong><br />
+1. Clarity: Instead of remembering parameter order, you explicitly specify which parameter receives which value.<br />
+2. Flexibility: You can pass only the parameters you need, ignoring the others.<br />
 3. Readability in code reviews: Unlike IDE hints, which are not visible in code reviews, named parameters are always clear.</p>
 <h2 id="expressions-in-kotlin-compact-and-expressive-code">Expressions in Kotlin: Compact and Expressive Code</h2>
 <p>One of Kotlin’s strengths is the ability to use constructs like <code>if</code>, <code>when</code>, and even <code>try</code> as expressions that return a value. This makes code more compact and elegant.</p>
@@ -382,8 +382,8 @@ Figure(Color.RED, &quot;Red figure&quot;) // Compilation error
     if (weather is Rainy) Safe() else Calm()
 </code></pre>
 
-<p><strong>Benefits:</strong><br>
-1. Less code: No extra temporary variables.<br>
+<p><strong>Benefits:</strong><br />
+1. Less code: No extra temporary variables.<br />
 2. Clarity: It’s immediately clear which value is returned for each condition.</p>
 <h3 id="example-when-as-an-expression">Example: when as an Expression</h3>
 <p>When there are more conditions, use <code>when</code>, which replaces nested <code>if-else</code>.</p>
@@ -398,13 +398,13 @@ fun adjustSpeed(weather: Weather): Drive = when (weather) {
 }
 </code></pre>
 
-<p><strong>Features:</strong><br>
-- The compiler checks that all possible variants of the sealed class are covered.<br>
+<p><strong>Features:</strong><br />
+- The compiler checks that all possible variants of the sealed class are covered.<br />
 - If there are unhandled branches, it results in an error or warning, depending on the settings.</p>
 <h3 id="new-in-kotlin-1530-sealed-when">New in Kotlin 1.5.30: Sealed when</h3>
 <p>Kotlin 1.5.30 added strict branch coverage for <code>when</code>, even when used as a statement (not just as an expression). This is useful for preventing unhandled new class variants.</p>
-<p><strong>Balancing Strictness and Flexibility</strong><br>
-If you add an <code>else</code> branch, <code>when</code> covers all cases, including any future ones you might add. This is convenient but risky: a newly added type might be overlooked.<br>
+<p><strong>Balancing Strictness and Flexibility</strong><br />
+If you add an <code>else</code> branch, <code>when</code> covers all cases, including any future ones you might add. This is convenient but risky: a newly added type might be overlooked.<br />
 Some companies use static code analysis to prohibit using <code>else</code> in <code>when</code> statements for sealed classes. This helps avoid errors by requiring explicit handling of all cases.</p>
 <h2 id="functional-types-and-their-extension-in-kotlin">Functional Types and Their Extension in Kotlin</h2>
 <p>Kotlin provides powerful tools for working with functions, including the use of functional types and their inheritance. These features make code more expressive and extensible, especially in scenarios involving frameworks or complex logic.</p>
@@ -419,8 +419,8 @@ fun someOtherFunction() {
 }
 </code></pre>
 
-<p>In this example:<br>
-1. <code>someFunction</code> takes a parameter of type <code>() -&gt; T</code> (a function that takes no arguments and returns <code>T</code>).<br>
+<p>In this example:<br />
+1. <code>someFunction</code> takes a parameter of type <code>() -&gt; T</code> (a function that takes no arguments and returns <code>T</code>).<br />
 2. The lambda <code>{ "Hello" }</code> is passed as an argument, and its result (<code>"Hello"</code>) is used as the return value.</p>
 <h3 id="typealiases-for-convenience">Typealiases for Convenience</h3>
 <p>When functional types are used frequently, you can simplify them with <code>typealias</code>.</p>
@@ -453,8 +453,8 @@ fun someOtherFunction() {
 }
 </code></pre>
 
-<p><strong>Why Do We Need This?</strong><br>
-1. <strong>Extending the functional type</strong>: You can add parameters via the constructor (like <code>param</code> in the example).<br>
+<p><strong>Why Do We Need This?</strong><br />
+1. <strong>Extending the functional type</strong>: You can add parameters via the constructor (like <code>param</code> in the example).<br />
 2. <strong>Integration with frameworks</strong>: In some frameworks, handlers (e.g., for requests) are represented as functional types. Inheriting lets you add extra parameters or behavior.</p>
 <h3 id="suspend-functions-and-their-inheritance">Suspend Functions and Their Inheritance</h3>
 <p>Starting with Kotlin 1.5.30, you can inherit from <code>suspend</code> functional types as well. This is particularly helpful when working with coroutines.</p>
@@ -500,8 +500,8 @@ val ds = dataSource {
 }
 </code></pre>
 
-<p>Here:<br>
-- <code>BasicDataSource.() -&gt; Unit</code> is the signature of a lambda with receiver.<br>
+<p>Here:<br />
+- <code>BasicDataSource.() -&gt; Unit</code> is the signature of a lambda with receiver.<br />
 - Inside the <code>config</code> block, the <code>BasicDataSource</code> object's properties are directly accessible.</p>
 <h3 id="buildstring-function">buildString Function</h3>
 <p>The standard library includes the <code>buildString</code> function, which demonstrates the capabilities of lambdas with receivers:</p>
@@ -581,8 +581,8 @@ fun main() {
 }
 </code></pre>
 
-<p>In this example:<br>
-- <code>Nullable?</code> is a type that allows <code>null</code>.<br>
+<p>In this example:<br />
+- <code>Nullable?</code> is a type that allows <code>null</code>.<br />
 - <code>?.</code> is the <strong>safe call</strong> operator, which invokes a method only when the value is not <code>null</code>.</p>
 <h3 id="problem-at-the-kotlin-java-boundary">Problem at the Kotlin-Java Boundary</h3>
 <p>Despite the elegance of Kotlin’s null safety, it interacts with Java, where <code>null</code> is perfectly normal. This leads to “platform types” in Kotlin. They are types coming from Java code where the Kotlin compiler cannot be certain whether <code>null</code> is possible.</p>
@@ -603,12 +603,12 @@ fun main() {
 <pre class="codehilite"><code class="language-kotlin">val city = order?.customer?.address?.city
 </code></pre>
 
-<p>b. <strong>Elvis Operator (<code>?:</code>)</strong><br>
+<p>b. <strong>Elvis Operator (<code>?:</code>)</strong><br />
 Sets a default value if the variable is <code>null</code>:</p>
 <pre class="codehilite"><code class="language-kotlin">val name = user?.name ?: &quot;Guest&quot;
 </code></pre>
 
-<p>c. <strong>Not-Null Assertion (<code>!!</code>)</strong><br>
+<p>c. <strong>Not-Null Assertion (<code>!!</code>)</strong><br />
 Forcibly asserts that a value is non-null. Use with caution:</p>
 <pre class="codehilite"><code class="language-kotlin">val nonNullValue = nullableValue!! // Can throw NullPointerException!
 </code></pre>
@@ -687,7 +687,7 @@ val container: PostgreSQLContainer&lt;*&gt; = PostgreSQLContainer(&quot;postgres
     .withPassword(&quot;password&quot;)
 </code></pre>
 
-<hr>
+<hr />
 <p>These are some of the features that make Kotlin stand out—first-class functions, extension functions, scope functions, null safety, and more. They combine to create a concise, expressive, and safe environment for development, whether you’re coming from Java or just beginning your journey with the language.</p>
         </article>
     </main>
