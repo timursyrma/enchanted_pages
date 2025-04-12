@@ -216,7 +216,6 @@ tbody tr:hover {
 }
 
 .all-posts-btn::before {
-  content: "←";
   margin-right: 0.5rem;
 }
 
